@@ -95,6 +95,8 @@ export const allowedFields = {
     'The dependency name already linked to its home page using markdown',
   depNameSanitized:
     'The depName field sanitized for use in branches after removing spaces and special characters',
+  depNameSuperSanitized:
+    'The depName field sanitized for use in branches after removing all but hyphens and alphanumerics',
   depType: 'The dependency type (if extracted - manager-dependent)',
   depTypes:
     'A deduplicated array of dependency types (if extracted - manager-dependent) in a branch',

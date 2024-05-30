@@ -26,6 +26,19 @@ function sanitizeDepName(depName: string): string {
     .toLowerCase();
 }
 
+function superSanitizeDepName(depName: string): string {
+  return depName
+    .replace('@types/', '')
+    .replace('@', '')
+    .replace(regEx(/\//g), '-')
+    .replace(regEx(/\s+/g), '-')
+    .replace(regEx(/\./g), '-')
+    .replace(regEx(/_/g), '-')
+    .replace(regEx(/[^a-zA-Z0-9-]+/), '-')
+    .replace(regEx(/-+/), '-')
+    .toLowerCase();
+}
+
 export function applyUpdateConfig(input: BranchUpgradeConfig): any {
   const updateConfig = { ...input };
   delete updateConfig.packageRules;
@@ -33,8 +46,14 @@ export function applyUpdateConfig(input: BranchUpgradeConfig): any {
   updateConfig.depNameSanitized = updateConfig.depName
     ? sanitizeDepName(updateConfig.depName)
     : undefined;
+  updateConfig.depNameSuperSanitized = updateConfig.depName
+    ? superSanitizeDepName(updateConfig.depName)
+    : undefined;
   updateConfig.newNameSanitized = updateConfig.newName
     ? sanitizeDepName(updateConfig.newName)
+    : undefined;
+  updateConfig.newNameSuperSanitized = updateConfig.newName
+    ? superSanitizeDepName(updateConfig.newName)
     : undefined;
   if (updateConfig.sourceUrl) {
     const parsedSourceUrl = parseUrl(updateConfig.sourceUrl);
